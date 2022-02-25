@@ -22,6 +22,8 @@ Route::group(['prefix' => 'admin'], function() {
   Route::get('http:XXXXXX.jp/XXX', 'AAAController@bbb')->middleware('auth');
   Route::get('profile/create', 'App\Http\Controllers\Admin\ProfileController@add')->middleware('auth');
   Route::get('profile/edit', 'App\Http\Controllers\Admin\ProfileController@edit')->middleware('auth');
+  Route::get('admin/profile/create', 'App\Http\Controllers\Admin\ProfileController@create')->middleware('auth');
+  Route::post('admin/profile/edit', 'App\Http\Controllers\Admin\ProfileController@update')->middleware('auth');
 });
 
 Auth::routes();
@@ -31,3 +33,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
+  Route::get('news/create', 'App\Http\Controllers\Admin\NewsController@add');
+  Route::post('news/create', 'App\Http\Controllers\Admin\NewsController@create');
+});
